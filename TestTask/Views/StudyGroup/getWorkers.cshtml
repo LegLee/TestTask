@@ -1,0 +1,7 @@
+﻿@model IEnumerable<TestTask.Models.Worker>
+
+ <select id="id_work" name="workers">
+@foreach (var item in Model) {
+    <option value="@item.id_work">@item.name_work</option>
+}
+</select>

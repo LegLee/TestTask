@@ -1,0 +1,45 @@
+﻿@model IEnumerable<TestTask.Models.StudyGroup>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Study Groups</h1>
+
+<p>
+    <a asp-action="Create">Создать учебную группу</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Преподаватель
+            </th>
+            <th>
+                Количество студентов
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.group_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.teacher_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.count_workers)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Редактировать</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

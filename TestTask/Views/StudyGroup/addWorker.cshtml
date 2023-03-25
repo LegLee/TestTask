@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TestTask.Models.Worker>
+@{
+    ViewData["Title"] = "addWorker";
+}
+
+<h1>Учебная группа: @ViewBag.study_group</h1>
+
+<h2>Преподаватель: @ViewBag.teacher</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="addWorker">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Html.DropDownList("organizations", ViewBag.organizations as SelectList, new {id="id_org"})
+            </div>
+            <br />
+            <div class="form-group">
+                <select id="id_work" name="workers">
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.id_work">@item.name_work</option>
+                    }
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="addWorker" class="btn btn-primary" />
+                @*<input type="hidden" value="@ViewBag.id_study_group" name=""/>*@
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $("#id_org").change(function () {
+            var id = $(this).val();
+            
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getWorkers")/' + id,
+                data: { 'id_study_group': @ViewBag.id_study_group,
+                        'id_org':id},
+                success: function (data) {
+                    console.log(data);
+                    $("#id_work").replaceWith(data)
+                }
+            })
+        })
+    </script>
+}
+
